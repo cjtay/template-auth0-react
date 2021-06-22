@@ -1,13 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
+import { useAuth0 } from '@auth0/auth0-react';
 
 import './index.css';
 import App from './App';
 import Dashboard from './components/Dashboard';
 import Logout from './components/LogoutPage';
 import reportWebVitals from './reportWebVitals';
+
+const PrivateRoute = ({ children, ...rest }) => {
+    const { user } = useAuth0();
+    return (
+        <Route
+            {...rest}
+            render={() => {
+                return user ? children : <Redirect to='/'></Redirect>;
+            }}
+        >
+            {children}
+        </Route>
+    );
+};
 
 ReactDOM.render(
     <React.StrictMode>
@@ -20,9 +35,9 @@ ReactDOM.render(
                 <Route exact path='/'>
                     <App />
                 </Route>
-                <Route exact path='/dashboard'>
+                <PrivateRoute exact path='/dashboard'>
                     <Dashboard />
-                </Route>
+                </PrivateRoute>
                 <Route exact path='/logout'>
                     <Logout />
                 </Route>
