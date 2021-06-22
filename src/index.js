@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
 
 import './index.css';
@@ -13,7 +13,7 @@ ReactDOM.render(
         <Auth0Provider
             domain='dev-kcs-n29r.au.auth0.com'
             clientId='kq77Q978g7x21DZb27VND7jLZqw4J4e4'
-            redirectUri={window.location.origin}
+            redirectUri='http://localhost:3000/dashboard'
         >
             <Router>
                 <Route exact path='/'>

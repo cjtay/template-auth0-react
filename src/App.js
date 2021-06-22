@@ -26,15 +26,6 @@ function App() {
                 >
                     Auth0 docs
                 </a>
-                {user && (
-                    <>
-                        <div>Name: {user.name}</div>
-                        <div>Email {user.email}</div>
-                        <div>Role: {user.roles}</div>
-                        <div>Nickname: {user.nickname}</div>
-                        <img src={user.picture} alt='user' />
-                    </>
-                )}
             </header>
         </div>
     );
