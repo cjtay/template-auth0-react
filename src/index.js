@@ -6,6 +6,7 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import './index.css';
 import App from './App';
 import Dashboard from './components/Dashboard';
+import Logout from './components/LogoutPage';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -21,6 +22,9 @@ ReactDOM.render(
                 </Route>
                 <Route exact path='/dashboard'>
                     <Dashboard />
+                </Route>
+                <Route exact path='/logout'>
+                    <Logout />
                 </Route>
             </Router>
         </Auth0Provider>

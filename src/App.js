@@ -5,8 +5,10 @@ import './App.css';
 
 function App() {
     const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
+    let roles;
     if (user) {
-        console.log('user: ', user);
+        roles = user[`http://localhost:3000/roles`];
+        console.log('user: ', roles[0]);
     }
     return (
         <div className='App'>
