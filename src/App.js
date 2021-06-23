@@ -6,6 +6,7 @@ import './App.css';
 
 function App() {
     const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
+    console.log('isAuthenticated: ', isAuthenticated);
     let roles;
     if (user) {
         roles = user[`http://localhost:3000/roles`];

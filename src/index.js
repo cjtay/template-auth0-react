@@ -8,7 +8,7 @@ import App from './App';
 import Dashboard from './components/Dashboard';
 import Logout from './components/LogoutPage';
 import Unauthorised from './components/Unauthorised';
-
+import PrivateRoute from './components/PrivateRoute';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -22,9 +22,9 @@ ReactDOM.render(
                 <Route exact path='/'>
                     <App />
                 </Route>
-                <Route exact path='/dashboard'>
+                <PrivateRoute exact path='/dashboard'>
                     <Dashboard />
-                </Route>
+                </PrivateRoute>
                 <Route exact path='/logout'>
                     <Logout />
                 </Route>
