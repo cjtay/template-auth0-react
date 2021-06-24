@@ -1,11 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { useAuth0 } from '@auth0/auth0-react';
 
 import './App.css';
 
 function App() {
-    const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
+    const { isLoading, isAuthenticated, user, loginWithRedirect, logout } =
+        useAuth0();
     console.log('isAuthenticated: ', isAuthenticated);
     let roles;
     if (user) {
@@ -17,8 +19,16 @@ function App() {
         <div className='App'>
             <header className='App-header'>
                 <h1>Authentication template using Auth0</h1>
-                {isAuthenticated ? (
-                    <button onClick={logout}>Logout</button>
+                {isLoading ? (
+                    <p>loading...</p>
+                ) : !isLoading && isAuthenticated ? (
+                    <>
+                        <button onClick={logout}>Logout</button>
+                        <p>Or go to:</p>
+                        <Link to='/dashboard'>
+                            <button>Dashboard</button>
+                        </Link>
+                    </>
                 ) : (
                     <button onClick={loginWithRedirect}>Login</button>
                 )}

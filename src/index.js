@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
 
 import './index.css';
@@ -8,6 +8,7 @@ import App from './App';
 import Dashboard from './components/Dashboard';
 import Logout from './components/LogoutPage';
 import Unauthorised from './components/Unauthorised';
+import Error404 from './components/Error404';
 import PrivateRoute from './components/PrivateRoute';
 import reportWebVitals from './reportWebVitals';
 
@@ -17,20 +18,26 @@ ReactDOM.render(
             domain='dev-kcs-n29r.au.auth0.com'
             clientId='kq77Q978g7x21DZb27VND7jLZqw4J4e4'
             redirectUri='http://localhost:3000/dashboard'
+            audience='http://localhost:3001/api'
         >
             <Router>
-                <Route exact path='/'>
-                    <App />
-                </Route>
-                <PrivateRoute exact path='/dashboard'>
-                    <Dashboard />
-                </PrivateRoute>
-                <Route exact path='/logout'>
-                    <Logout />
-                </Route>
-                <Route exact path='/unauthorised'>
-                    <Unauthorised />
-                </Route>
+                <Switch>
+                    <Route exact path='/'>
+                        <App />
+                    </Route>
+                    <PrivateRoute exact path='/dashboard'>
+                        <Dashboard />
+                    </PrivateRoute>
+                    <Route exact path='/logout'>
+                        <Logout />
+                    </Route>
+                    <Route exact path='/unauthorised'>
+                        <Unauthorised />
+                    </Route>
+                    <Route exact path='*'>
+                        <Error404 />
+                    </Route>
+                </Switch>
             </Router>
         </Auth0Provider>
     </React.StrictMode>,
