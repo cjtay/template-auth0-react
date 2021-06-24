@@ -1,13 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import { useAuth0 } from '@auth0/auth0-react';
+import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 
-import './App.css';
+import Landing from './components/Landing';
+import Dashboard from './components/Dashboard';
+import Logout from './components/LogoutPage';
+import Unauthorised from './components/Unauthorised';
+import Error404 from './components/Error404';
+import PrivateRoute from './components/PrivateRoute';
+
+import './tailwind.css';
 
 function App() {
-    const { isLoading, isAuthenticated, user, loginWithRedirect, logout } =
-        useAuth0();
+    const { isAuthenticated, user } = useAuth0();
     console.log('isAuthenticated: ', isAuthenticated);
     let roles;
     if (user) {
@@ -16,38 +22,32 @@ function App() {
     }
 
     return (
-        <div className='App'>
-            <header className='App-header'>
-                <h1>Authentication template using Auth0</h1>
-                {isLoading ? (
-                    <p>loading...</p>
-                ) : !isLoading && isAuthenticated ? (
-                    <>
-                        <button onClick={logout}>Logout</button>
-                        <p>Or go to:</p>
-                        <Link to='/dashboard'>
-                            <button>Dashboard</button>
-                        </Link>
-                    </>
-                ) : (
-                    <button
-                        className='mt-5 btn-light'
-                        onClick={loginWithRedirect}
-                    >
-                        Login
-                    </button>
-                )}
-
-                <a
-                    className='App-link'
-                    href='https://auth0.com/docs/quickstart/spa/react'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                >
-                    Auth0 docs
-                </a>
-            </header>
-        </div>
+        <Auth0Provider
+            domain='dev-kcs-n29r.au.auth0.com'
+            clientId='kq77Q978g7x21DZb27VND7jLZqw4J4e4'
+            redirectUri='http://localhost:3000/dashboard'
+            audience='http://localhost:3001/api'
+        >
+            <Router>
+                <Switch>
+                    <Route exact path='/'>
+                        <Landing />
+                    </Route>
+                    <PrivateRoute exact path='/dashboard'>
+                        <Dashboard />
+                    </PrivateRoute>
+                    <Route exact path='/logout'>
+                        <Logout />
+                    </Route>
+                    <Route exact path='/unauthorised'>
+                        <Unauthorised />
+                    </Route>
+                    <Route exact path='*'>
+                        <Error404 />
+                    </Route>
+                </Switch>
+            </Router>
+        </Auth0Provider>
     );
 }
 
