@@ -11,7 +11,9 @@ const LogoutPage = () => {
             <h1>This is a logout page</h1>
             {user ? <p>There is user info</p> : <p>There is no user info</p>}
             <p>see console log for details</p>
-            <Link to='/'>Go Home</Link>
+            <Link to='/'>
+                <button className='btn-dark'>Go Home</button>
+            </Link>
         </>
     );
 };

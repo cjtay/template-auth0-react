@@ -30,7 +30,12 @@ function App() {
                         </Link>
                     </>
                 ) : (
-                    <button onClick={loginWithRedirect}>Login</button>
+                    <button
+                        className='mt-5 btn-light'
+                        onClick={loginWithRedirect}
+                    >
+                        Login
+                    </button>
                 )}
 
                 <a

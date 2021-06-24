@@ -12,6 +12,8 @@ import Error404 from './components/Error404';
 import PrivateRoute from './components/PrivateRoute';
 import reportWebVitals from './reportWebVitals';
 
+import './tailwind.css';
+
 ReactDOM.render(
     <React.StrictMode>
         <Auth0Provider
