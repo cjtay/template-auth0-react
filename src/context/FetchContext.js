@@ -58,7 +58,7 @@ const FetchProvider = ({ children }) => {
   return (
     <Provider
       value={{
-        authAxios
+        authAxios, accessToken
       }}
     >
       {children}
