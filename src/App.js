@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 
 import Landing from './components/Landing';
@@ -9,6 +8,8 @@ import Logout from './components/LogoutPage';
 import Unauthorised from './components/Unauthorised';
 import Error404 from './components/Error404';
 import PrivateRoute from './components/PrivateRoute';
+
+import { FetchProvider } from './context/FetchContext'
 
 import './tailwind.css';
 
@@ -28,6 +29,8 @@ function App() {
             redirectUri='http://localhost:3000/dashboard'
             audience='http://localhost:3001/api'
         >
+            <FetchProvider>
+
             <Router>
                 <Switch>
                     <Route exact path='/'>
@@ -47,6 +50,7 @@ function App() {
                     </Route>
                 </Switch>
             </Router>
+            </FetchProvider>
         </Auth0Provider>
     );
 }
