@@ -1,18 +1,35 @@
-import React, { useContext} from 'react';
+import React, { useContext, useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import {FetchContext} from '../context/FetchContext'
 
 const Dashboard = () => {
     const fetchContext = useContext(FetchContext)
+    const [basicData, setBasicData] = useState();
 
     const { user, isAuthenticated, logout, isLoading } =
         useAuth0();
+        
     let roles;
     if (user) {
         roles = user[`http://localhost:3000/roles`];
         console.log('user role: ', roles);
     }
+
+    useEffect(() => {
+        const getData = async () => {
+          try {
+            const { data } = await fetchContext.authAxios.get(
+              'http://localhost:8000/api/'
+            );
+            setBasicData(data);
+          } catch (err) {
+            console.log('API error: ',err);
+          }
+        };
+    
+        getData();
+      }, [fetchContext]);
 
 
     return (
@@ -50,6 +67,10 @@ const Dashboard = () => {
                                 <span className='font-bold'>Nickname: </span>
                                 {user.nickname}
                             </div>
+                            <div>
+                                <span className='font-bold'>API Data: </span>
+                                {basicData}
+                            </div>
                             <img
                                 className='my-3'
                                 src={user.picture}
@@ -61,6 +82,7 @@ const Dashboard = () => {
                                 </span>
                                 {fetchContext.accessToken}
                             </div>
+                            
                             <div>
                                 <button
                                     className='btn-dark'
