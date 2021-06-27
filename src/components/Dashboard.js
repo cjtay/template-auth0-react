@@ -21,8 +21,8 @@ const Dashboard = () => {
                 const { data } = await fetchContext.authAxios.get(
                     'http://localhost:8000/api/user'
                 );
-                const formattedData = JSON.stringify(data);
-                setBasicData(formattedData);
+
+                setBasicData(data);
                 console.log('basic data: ', basicData);
             } catch (err) {
                 console.log('API error: ', err);
@@ -30,7 +30,8 @@ const Dashboard = () => {
         };
 
         getData();
-    }, [fetchContext, basicData]);
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <>
@@ -38,46 +39,55 @@ const Dashboard = () => {
                 <h2>Loading ......</h2>
             ) : (
                 <>
-                    <h2 className="px-5 py-2 text-center bg-gray-200">
+                    <h2 className='px-5 py-2 text-center bg-gray-200'>
                         Dashboard Component
                     </h2>
                     {!isAuthenticated && (
                         <>
-                            <h2 className="p-4 bg-red-500">
+                            <h2 className='p-4 bg-red-500'>
                                 You are not login, please return to main page
                             </h2>
-                            <Link to="/">Go Home</Link>
+                            <Link to='/'>Go Home</Link>
                         </>
                     )}
                     {isAuthenticated && user && (
-                        <div className="w-6/12 p-3 mx-auto my-5 bg-green-100">
+                        <div className='w-6/12 p-3 mx-auto my-5 bg-green-100'>
                             <div>
-                                <span className="font-bold">Name: </span>
+                                <span className='font-bold'>Name: </span>
                                 {user.name}
                             </div>
                             <div>
-                                <span className="font-bold">Email: </span>
+                                <span className='font-bold'>Email: </span>
                                 {user.email}
                             </div>
                             <div>
-                                <span className="font-bold">Role: </span>
+                                <span className='font-bold'>Role: </span>
                                 {roles[0]}
                             </div>
                             <div>
-                                <span className="font-bold">Nickname: </span>
+                                <span className='font-bold'>Nickname: </span>
                                 {user.nickname}
                             </div>
                             <div>
-                                <span className="font-bold">API Data: </span>
-                                {basicData}
+                                <span className='font-bold'>API Data: </span>
+                                {basicData &&
+                                    basicData.map((user) => {
+                                        return (
+                                            <div key={user._id}>
+                                                {' '}
+                                                name: {user.name}, email:{' '}
+                                                {user.email}
+                                            </div>
+                                        );
+                                    })}
                             </div>
                             <img
-                                className="my-3"
+                                className='my-3'
                                 src={user.picture}
-                                alt="user"
+                                alt='user'
                             />
-                            <div className="overflow-scroll">
-                                <span className="font-bold">
+                            <div className='overflow-scroll'>
+                                <span className='font-bold'>
                                     Access Token:{' '}
                                 </span>
                                 {fetchContext.accessToken}
@@ -85,7 +95,7 @@ const Dashboard = () => {
 
                             <div>
                                 <button
-                                    className="btn-dark"
+                                    className='btn-dark'
                                     onClick={() => {
                                         logout({
                                             returnTo:
