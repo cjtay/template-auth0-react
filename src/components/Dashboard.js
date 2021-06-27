@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { FetchContext } from '../context/FetchContext';
@@ -6,6 +6,7 @@ import { FetchContext } from '../context/FetchContext';
 const Dashboard = () => {
     const fetchContext = useContext(FetchContext);
     const [basicData, setBasicData] = useState();
+    const [errorText, setErrorText] = useState('');
 
     const { user, isAuthenticated, logout, isLoading } = useAuth0();
 
@@ -15,23 +16,16 @@ const Dashboard = () => {
         console.log('user role: ', roles);
     }
 
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const { data } = await fetchContext.authAxios.get(
-                    'http://localhost:8000/api/user'
-                );
-
-                setBasicData(data);
-                console.log('basic data: ', basicData);
-            } catch (err) {
-                console.log('API error: ', err);
-            }
-        };
-
-        getData();
-        // eslint-disable-next-line
-    }, []);
+    const handleGetData = async () => {
+        try {
+            setErrorText('');
+            const { data } = await fetchContext.authAxios.get('/user');
+            setBasicData(data);
+        } catch (err) {
+            console.log('API error: ', err.message);
+            setErrorText(err.message);
+        }
+    };
 
     return (
         <>
@@ -68,19 +62,26 @@ const Dashboard = () => {
                                 <span className='font-bold'>Nickname: </span>
                                 {user.nickname}
                             </div>
-                            <div>
-                                <span className='font-bold'>API Data: </span>
-                                {basicData &&
-                                    basicData.map((user) => {
-                                        return (
-                                            <div key={user._id}>
-                                                {' '}
-                                                name: {user.name}, email:{' '}
-                                                {user.email}
-                                            </div>
-                                        );
-                                    })}
-                            </div>
+                            <div className='font-bold'>API Data:</div>
+                            <button
+                                className='btn-light'
+                                onClick={handleGetData}
+                            >
+                                Retrieve data
+                            </button>
+                            {basicData &&
+                                basicData.map((user) => {
+                                    return (
+                                        <div key={user._id}>
+                                            {' '}
+                                            name: {user.name}, email:{' '}
+                                            {user.email}
+                                        </div>
+                                    );
+                                })}
+                            {errorText && (
+                                <p className='text-red-500'>{errorText}</p>
+                            )}
                             <img
                                 className='my-3'
                                 src={user.picture}

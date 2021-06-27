@@ -9,7 +9,7 @@ import Unauthorised from './components/Unauthorised';
 import Error404 from './components/Error404';
 import PrivateRoute from './components/PrivateRoute';
 
-import { FetchProvider } from './context/FetchContext'
+import { FetchProvider } from './context/FetchContext';
 
 import './tailwind.css';
 
@@ -27,29 +27,28 @@ function App() {
             domain='dev-kcs-n29r.au.auth0.com'
             clientId='kq77Q978g7x21DZb27VND7jLZqw4J4e4'
             redirectUri='http://localhost:3000/dashboard'
-            audience='http://localhost:3001/api'
+            audience='https://digitalfunnel/'
         >
             <FetchProvider>
-
-            <Router>
-                <Switch>
-                    <Route exact path='/'>
-                        <Landing />
-                    </Route>
-                    <PrivateRoute exact path='/dashboard'>
-                        <Dashboard />
-                    </PrivateRoute>
-                    <Route exact path='/logout'>
-                        <Logout />
-                    </Route>
-                    <Route exact path='/unauthorised'>
-                        <Unauthorised />
-                    </Route>
-                    <Route exact path='*'>
-                        <Error404 />
-                    </Route>
-                </Switch>
-            </Router>
+                <Router>
+                    <Switch>
+                        <Route exact path='/'>
+                            <Landing />
+                        </Route>
+                        <PrivateRoute exact path='/dashboard'>
+                            <Dashboard />
+                        </PrivateRoute>
+                        <Route exact path='/logout'>
+                            <Logout />
+                        </Route>
+                        <Route exact path='/unauthorised'>
+                            <Unauthorised />
+                        </Route>
+                        <Route exact path='*'>
+                            <Error404 />
+                        </Route>
+                    </Switch>
+                </Router>
             </FetchProvider>
         </Auth0Provider>
     );
