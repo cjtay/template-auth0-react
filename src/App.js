@@ -24,10 +24,10 @@ function App() {
 
     return (
         <Auth0Provider
-            domain='dev-kcs-n29r.au.auth0.com'
-            clientId='kq77Q978g7x21DZb27VND7jLZqw4J4e4'
+            domain={process.env.REACT_APP_AUTH0_DOMAIN}
+            clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
             redirectUri='http://localhost:3000/dashboard'
-            audience='https://digitalfunnel/'
+            audience={process.env.REACT_APP_AUTH0_AUDIENCE}
         >
             <FetchProvider>
                 <Router>
