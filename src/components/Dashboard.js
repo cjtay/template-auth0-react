@@ -83,6 +83,13 @@ const Dashboard = () => {
                                 <span className='font-bold'>Nickname: </span>
                                 {user.nickname}
                             </div>
+                            <div>
+                                <span className='font-bold'>
+                                    Auth0 user ID:{' '}
+                                </span>
+                                {user.sub}
+                            </div>
+
                             <div className='font-bold'>API Data:</div>
                             <button
                                 className='btn-light'
