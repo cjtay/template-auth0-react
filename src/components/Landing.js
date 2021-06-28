@@ -14,6 +14,7 @@ const Landing = () => {
                 ) : !isLoading && isAuthenticated ? (
                     <>
                         <button onClick={logout}>Logout</button>
+
                         <p>Or go to:</p>
                         <Link to='/dashboard'>
                             <button>Dashboard</button>
