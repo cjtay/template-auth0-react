@@ -10,6 +10,7 @@ const Dashboard = () => {
     const fetchContext = useContext(FetchContext);
     const { user, isAuthenticated, logout, isLoading } = useAuth0();
 
+    //this is how to extract role from auth0 custom namespace
     let roles;
     if (user) {
         roles = user[`http://digitalfunnel/roles`];

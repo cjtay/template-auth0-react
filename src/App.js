@@ -22,12 +22,20 @@ function App() {
         console.log('user: ', roles[0]);
     }
 
+    const requestedScopes = [
+        'read:data',
+        'write:data',
+        'delete:data',
+        'update:data',
+    ];
+
     return (
         <Auth0Provider
             domain={process.env.REACT_APP_AUTH0_DOMAIN}
             clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
             redirectUri='http://localhost:3000/dashboard'
             audience={process.env.REACT_APP_AUTH0_AUDIENCE}
+            scope={requestedScopes.join(' ')}
         >
             <FetchProvider>
                 <Router>
