@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { FetchContext } from '../context/FetchContext';
 
 const Dashboard = () => {
-    const fetchContext = useContext(FetchContext);
     const [basicData, setBasicData] = useState();
     const [errorText, setErrorText] = useState('');
 
+    const fetchContext = useContext(FetchContext);
     const { user, isAuthenticated, logout, isLoading } = useAuth0();
 
     let roles;
@@ -16,11 +16,31 @@ const Dashboard = () => {
         console.log('user role: ', roles);
     }
 
+    //display data on initial page load, need dependency on fetchContext.accessToken to avoid jwt malformed.
+    useEffect(() => {
+        if (fetchContext.accessToken) {
+            const getInitialData = async () => {
+                try {
+                    setErrorText('');
+                    const { data } = await fetchContext.authAxios.get('/user');
+                    setBasicData(data);
+                } catch (err) {
+                    console.log('API error: ', err.message);
+                    setErrorText(err.message);
+                }
+            };
+            getInitialData();
+        }
+        // eslint-disable-next-line
+    }, [fetchContext.accessToken]);
+
+    //subsequent manual retrieve of data
     const handleGetData = async () => {
         try {
             setErrorText('');
             const { data } = await fetchContext.authAxios.get('/user');
-            setBasicData(data);
+            // setBasicData(data);
+            console.log('setBasicData: ', data);
         } catch (err) {
             console.log('API error: ', err.message);
             setErrorText(err.message);
@@ -67,7 +87,7 @@ const Dashboard = () => {
                                 className='btn-light'
                                 onClick={handleGetData}
                             >
-                                Retrieve data
+                                Get data again to console log
                             </button>
                             {basicData &&
                                 basicData.map((user) => {
